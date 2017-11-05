@@ -15,22 +15,22 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['']">
+                    <a class="nav-link" [routerLink]="['']" *ngIf="identity && identity.sub">
                         <span class="oi oi-brush" title="crear" aria-hidden="true"></span>Crear tarea
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['']">
+                    <a class="nav-link" [routerLink]="['']" *ngIf="identity && identity.sub">
                         <span class="oi oi-cog" title="ajustes" aria-hidden="true"></span>Ajuste
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" [routerLink]="['']">
+                    <a class="nav-link" [routerLink]="['/login',1]" *ngIf="identity && identity.sub">
                         <span class="oi oi-circle-x" title="cerrar" aria-hidden="true"></span>Salir
                     </a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right" *ngIf="!identity">
                 <li class="nav-item" id="navAcceder">
                     <a class="nav-link" [routerLink]="['/login']">Acceder</a>
                 </li>
