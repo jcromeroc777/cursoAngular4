@@ -48,5 +48,15 @@ export class UserService{
 
         return this.token;
     }
+
+    register(userToRegister)
+    {
+        let json = JSON.stringify(userToRegister);
+        let parameters = "json="+json;
+        let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded'});
+
+        return this._http.post(this.url+'/user/new', parameters, {headers: headers})
+        .map(res => res.json());
+    }
      
 }
