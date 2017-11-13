@@ -1,1 +1,109 @@
-<h1>{{title}}</h1>
+<div class="col-md-12">
+    <h3 class="text-center">{{title}}</h3>
+
+    <div class="identity-alert alert alert-danger text-center center" *ngIf="!identity || identity == null" role="alert">
+        Inicia sesión para acceder a las opciones...
+    </div>
+
+    <div class="col-md-8 container" *ngIf="identity && identity.sub">
+        <!-- Mostrar el buscador de tareas -->
+        <form class="col-md-12" role="search">
+            <div class="search col-md-12 justify-content-md-center">
+                <nav class="navbar navbar-light bg-light justify-content-center">
+                    <div class="filtro col-md-2">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Filtrar
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" type="button" (click)="filterAsing(1)">Nuevas</button>
+                                <button class="dropdown-item" type="button" (click)="filterAsing(2)">Por hacer</button>
+                                <button class="dropdown-item" type="button" (click)="filterAsing(3)">Terminada</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order col-md-3">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Orden
+                            </button>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" type="button" (click)="orderAsing(1)">Fecha ascendente</button>
+                                <button class="dropdown-item" type="button" (click)="orderAsing(2)">Fecha descendente</button>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="form-inline">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Qué tarea buscas?" aria-label="Search" name="searchString" [(ngModel)]="searchString">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="search()">Buscar</button>
+                    </form>
+                </nav>
+            </div>
+        </form>
+
+        <div class="all-task row justify-content-md-center">
+            <div class="loader" *ngIf="loading == 'show'">
+                <img src="assets/img/loader.gif" />...Cargando listado de tareas
+            </div>
+            <table class="table table-hover table-striped" id="taskList" *ngIf="tasks && tasks.length >=1">
+                <thead>
+                    <tr>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let task of tasks" class="task-item">
+                        <td>
+                            <h4>
+                                <span class="badge badge-pill badge-success" *ngIf="task.status == 'finished'">
+                                    Acabada
+                                </span>
+                                <span class="badge badge-pill badge-warning" *ngIf="task.status == 'toDo'">
+                                    Por hacer
+                                </span>
+                                <span class="badge badge-pill badge-primary" *ngIf="task.status == 'new'">
+                                    Nueva
+                                </span>
+                            </h4>
+                        </td>
+                        <td>
+                            <h4>
+                                <a [routerLink]="['task', task.id]">{{task.title}}</a>
+                            </h4>
+                        </td>
+                        <td>
+                            <a [routerLink]="['task-edit', task.id]" class="btn btn-warning">Editar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="alert alert-warning" *ngIf="loading != 'show' && (!tasks || tasks.length == 0)">
+            No se han encontrado tareas, crealas <a [routerLink]="['/task-new']">clicleando aqui</a>
+        </div>
+        <div class="navigation-page">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center" *ngIf="tasks && tasks.length >= 1 && !searchString && !filter && !order">
+                    <li class="page-item">
+                        <a class="page-link" [routerLink]="['/index', pagePrev]" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item" *ngFor="let page of pages">
+                        <a class="page-link" [routerLink]="['/index', page+1]">{{page+1}}</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" [routerLink]="['/index', pageNext]" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div>

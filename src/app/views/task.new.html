@@ -1,0 +1,39 @@
+<div class="col-md-12">
+    <h3 class="text-center">{{pageTitle}}</h3>
+
+    <div class="loaderTask" *ngIf="loading == 'show'">
+        <img src="assets/img/loader.gif" />...Cargando tarea
+    </div>
+    <div class="col-md-12" *ngIf="!loading || task">
+        <div class="alert alert-success text-center center" *ngIf="statusTask == 'success'">
+            La tarea se ha creado correctamente
+        </div>
+
+        <div class="alert alert-danger text-center center" *ngIf="statusTask == 'error'">
+            La tarea no se ha creado correctamente
+        </div>
+
+        <form #taskNewForm="ngForm" (ngSubmit)="onSubmit()" class="col-md-7 no-padding centerRegister">
+            <p>
+                <label>Título</label>
+                <input type="text" class="form-control" name="title" #title="ngModel" [(ngModel)]="task.title" required/>
+                <span *ngIf="!title.valid && title.touched">El titulo no es correcto</span>
+            </p>
+            <p>
+                <label>Descripción</label>
+                <textarea class="form-control" name="description" #description="ngModel" [(ngModel)]="task.description" cols="5" rows="5" required></textarea>
+                <span *ngIf="!description.valid && description.touched">La descripción no puede estar vacía</span>
+            </p>
+            <p>
+                <label>Estado</label>
+                <select class="form-control" name="status" #status="ngModel" [(ngModel)]="task.status">
+                    <option selected="true" disabled="disabled" value="default">Seleccione el estado</option>
+                    <option value="new">Nueva</option>
+                    <option value="toDo">Por hacer</option>
+                    <option value="finished">Terminada</option> 
+                </select>
+            </p>
+            <input type="submit" value="{{pageTitle}}" class="btn btn-success" [disabled]="taskNewForm.invalid" />
+        </form>
+    </div>
+</div>

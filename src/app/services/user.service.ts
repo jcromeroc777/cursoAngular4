@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Observable'
 import { GLOBAL } from './global';
 
 @Injectable()
-export class UserService{
+export class UserService
+{
     public url: string;
     public identity;
     public token;
@@ -57,6 +58,17 @@ export class UserService{
 
         return this._http.post(this.url+'/user/new', parameters, {headers: headers})
         .map(res => res.json());
+    }
+
+    updateUser(userToUpdate)
+    {
+        let json = JSON.stringify(userToUpdate);
+        let parameters = "json="+json+'&authorization='+this.getToken();
+        let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded'});
+
+        return this._http.post(this.url+'/user/edit', parameters, {headers: headers})
+        .map(res => res.json());
+
     }
      
 }
